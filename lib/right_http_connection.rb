@@ -284,11 +284,13 @@ them.
       @server   = request_params[:server]
       @port     = request_params[:port]
       @protocol = request_params[:protocol]
+      @proxy    = request_params[:proxy]
+      @proxy    = {} if @proxy.nil?
 
       @logger.info("Opening new #{@protocol.upcase} connection to #@server:#@port")
 #      raise 1/0
-
-      @http = Net::HTTP.new(@server, @port)
+      ## pass here the p_host, p_port, p_user and p_pass
+      @http = Net::HTTP.new(@server, @port, @proxy[:address], @proxy[:port], @proxy[:username], @proxy[:password])
       @http.open_timeout = @params[:http_connection_open_timeout]
       @http.read_timeout = @params[:http_connection_read_timeout]
 
